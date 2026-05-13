@@ -22,7 +22,8 @@ UEFIファームウェアに直接 GRUB2 を第一候補として登録する方
 │   ├── 06-dwm-on-kali.md                … Kali に DWM(suckless)で最小デスクトップを構築(ハック志向)
 │   ├── 07-remove-windows-boot-entry.md  … Windows Boot Manager の UEFI エントリを完全削除し GRUB chainload で起動する
 │   ├── 08-bootloader-comparison.md      … 2026 年時点の Linux ブートローダ比較(GRUB2 / sd-boot / EFISTUB+UKI / Limine / rEFInd)
-│   └── 09-light-xfce-on-kali.md         … Kali 既定の Xfce をチューニングして軽量運用 + Terminator(実用志向・推奨)
+│   ├── 09-light-xfce-on-kali.md         … Kali 既定の Xfce をチューニングして軽量運用 + Terminator(実用志向・推奨)
+│   └── 10-windows-games-on-linux.md     … Windows 専用ゲームを Linux で動かす(Steam+Proton / Heroic / Lutris / Bottles / アンチチート)
 └── scripts/
     ├── linux/
     │   ├── show-boot-order.sh           … 現在の UEFI ブート順を表示
@@ -31,7 +32,8 @@ UEFIファームウェアに直接 GRUB2 を第一候補として登録する方
     │   ├── remove-windows-boot-entry.sh … Windows Boot Manager の NVRAM エントリを削除(bootmgfw.efi は温存)
     │   ├── restore-windows-boot-entry.sh… 上記の復元
     │   ├── install-grub-efi.sh          … GRUB2(EFI)を /boot/efi にインストール
-    │   └── repair-grub.sh               … chroot 不要の最小限の GRUB 修復
+    │   ├── repair-grub.sh               … chroot 不要の最小限の GRUB 修復
+    │   └── install-gaming-stack.sh      … Steam / Lutris / Heroic / Bottles / GameMode / MangoHud / Gamescope を一括導入(Flatpak 併用、冪等)
     └── windows/
         ├── show-boot-order.bat          … bcdedit で現在のブート順を表示
         ├── set-grub-first.bat           … bcdedit で GRUB(\EFI\<distro>\grubx64.efi)を Windows よりも優先
@@ -87,6 +89,14 @@ sudo bash scripts/linux/remove-windows-boot-entry.sh              # 本実行
 ```
 
 スクリプトが `bootmgfw.efi` の存在と GRUB の Windows menuentry を確認し、復元情報をバックアップしてから NVRAM の `Boot####` を削除します。Windows は GRUB のメニューから chainload で起動できます。詳細・ファームウェア quirks への対処は `docs/07-remove-windows-boot-entry.md` 参照。
+
+### Windows ゲームを Linux 側で遊びたい(Steam / Epic / GOG / Battle.net 等)
+
+```bash
+sudo bash scripts/linux/install-gaming-stack.sh
+```
+
+i386 アーキ有効化 → Steam・GameMode・MangoHud・Gamescope を apt で導入 → Flathub 追加 → Lutris / Heroic / Bottles / ProtonUp-Qt を Flatpak で導入、までを一括で行います(冪等)。ストア別の使い分け(Steam → Proton、Epic/GOG → Heroic、Battle.net → Lutris、単発 → Bottles)とアンチチート対応の現実、低スペック機向け Gamescope の使い方は `docs/10-windows-games-on-linux.md` を参照。
 
 ## 注意
 
