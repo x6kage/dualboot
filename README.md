@@ -19,12 +19,15 @@ UEFIファームウェアに直接 GRUB2 を第一候補として登録する方
 │   ├── 03-troubleshooting.md            … GRUB が出ない / Windows Update で書き換えられた等の復旧
 │   ├── 04-keep-windows-add-kali.md      … Office プリイン Windows を残したまま Kali を追加する手順(Linux メイン推奨)
 │   ├── 05-windows-boot-manager-faq.md   … 「Windows Boot Manager を消したら Windows は起動できない?」FAQ
-│   └── 06-dwm-on-kali.md                … Kali に DWM(suckless)で軽量デスクトップを構築
+│   ├── 06-dwm-on-kali.md                … Kali に DWM(suckless)で軽量デスクトップを構築
+│   └── 07-remove-windows-boot-entry.md  … Windows Boot Manager の UEFI エントリを完全削除し GRUB chainload で起動する
 └── scripts/
     ├── linux/
     │   ├── show-boot-order.sh           … 現在の UEFI ブート順を表示
     │   ├── set-grub-first.sh            … GRUB を UEFI ブート順の先頭に設定(Linux メイン用・推奨)
     │   ├── set-windows-first.sh         … Windows Boot Manager を UEFI ブート順の先頭に戻す(対称版)
+    │   ├── remove-windows-boot-entry.sh … Windows Boot Manager の NVRAM エントリを削除(bootmgfw.efi は温存)
+    │   ├── restore-windows-boot-entry.sh… 上記の復元
     │   ├── install-grub-efi.sh          … GRUB2(EFI)を /boot/efi にインストール
     │   └── repair-grub.sh               … chroot 不要の最小限の GRUB 修復
     └── windows/
@@ -72,7 +75,16 @@ sudo bash scripts/linux/set-grub-first.sh
 
 ### 「Windows Boot Manager を消したら Windows は壊れる?」
 
-短答: **「UEFI のエントリ」を消すだけなら壊れない(GRUB から起動できる/再登録で復活)。「ESP 上のファイル」を消すと壊れる。優先度を下げるだけなら何も消す必要はない。** 詳しくは `docs/05-windows-boot-manager-faq.md`。
+短答: **「UEFI のエントリ」を消すだけなら壊れない(GRUB から chainload で起動できる/再登録で復活)。「ESP 上のファイル」を消すと壊れる。優先度を下げるだけなら何も消す必要はない。** 詳しくは `docs/05-windows-boot-manager-faq.md`。
+
+### Windows Update を恒久停止している環境(ReviOS 等)で UEFI エントリを完全削除したい
+
+```bash
+sudo bash scripts/linux/remove-windows-boot-entry.sh --dry-run    # まず確認
+sudo bash scripts/linux/remove-windows-boot-entry.sh              # 本実行
+```
+
+スクリプトが `bootmgfw.efi` の存在と GRUB の Windows menuentry を確認し、復元情報をバックアップしてから NVRAM の `Boot####` を削除します。Windows は GRUB のメニューから chainload で起動できます。詳細・ファームウェア quirks への対処は `docs/07-remove-windows-boot-entry.md` 参照。
 
 ## 注意
 
