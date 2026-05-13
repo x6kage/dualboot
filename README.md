@@ -20,7 +20,8 @@ UEFIファームウェアに直接 GRUB2 を第一候補として登録する方
 │   ├── 04-keep-windows-add-kali.md      … Office プリイン Windows を残したまま Kali を追加する手順(Linux メイン推奨)
 │   ├── 05-windows-boot-manager-faq.md   … 「Windows Boot Manager を消したら Windows は起動できない?」FAQ
 │   ├── 06-dwm-on-kali.md                … Kali に DWM(suckless)で軽量デスクトップを構築
-│   └── 07-remove-windows-boot-entry.md  … Windows Boot Manager の UEFI エントリを完全削除し GRUB chainload で起動する
+│   ├── 07-remove-windows-boot-entry.md  … Windows Boot Manager の UEFI エントリを完全削除し GRUB chainload で起動する
+│   └── 08-bootloader-comparison.md      … 2026 年時点の Linux ブートローダ比較(GRUB2 / sd-boot / EFISTUB+UKI / Limine / rEFInd)
 └── scripts/
     ├── linux/
     │   ├── show-boot-order.sh           … 現在の UEFI ブート順を表示
