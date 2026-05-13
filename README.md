@@ -23,7 +23,8 @@ UEFIファームウェアに直接 GRUB2 を第一候補として登録する方
 │   ├── 07-remove-windows-boot-entry.md  … Windows Boot Manager の UEFI エントリを完全削除し GRUB chainload で起動する
 │   ├── 08-bootloader-comparison.md      … 2026 年時点の Linux ブートローダ比較(GRUB2 / sd-boot / EFISTUB+UKI / Limine / rEFInd)
 │   ├── 09-light-xfce-on-kali.md         … Kali 既定の Xfce をチューニングして軽量運用 + Terminator(実用志向・推奨)
-│   └── 10-windows-games-on-linux.md     … Windows 専用ゲームを Linux で動かす(Steam+Proton / Heroic / Lutris / Bottles / アンチチート)
+│   ├── 10-windows-games-on-linux.md     … Windows 専用ゲームを Linux で動かす(Steam+Proton / Heroic / Lutris / Bottles / アンチチート)
+│   └── 11-hoyo-and-cn-gacha-on-linux.md … HoyoPlay / Wuthering Waves / 中華ガチャゲー & XXMI Launcher を Linux で動かす
 └── scripts/
     ├── linux/
     │   ├── show-boot-order.sh           … 現在の UEFI ブート順を表示
@@ -33,7 +34,8 @@ UEFIファームウェアに直接 GRUB2 を第一候補として登録する方
     │   ├── restore-windows-boot-entry.sh… 上記の復元
     │   ├── install-grub-efi.sh          … GRUB2(EFI)を /boot/efi にインストール
     │   ├── repair-grub.sh               … chroot 不要の最小限の GRUB 修復
-    │   └── install-gaming-stack.sh      … Steam / Lutris / Heroic / Bottles / GameMode / MangoHud / Gamescope を一括導入(Flatpak 併用、冪等)
+    │   ├── install-gaming-stack.sh      … Steam / Lutris / Heroic / Bottles / GameMode / MangoHud / Gamescope を一括導入(Flatpak 併用、冪等)
+    │   └── install-aagl-launchers.sh    … An Anime Game Launcher 一族 (Genshin/HSR/Honkai 3/ZZZ/WuWa) + Bottles + Heroic を Flatpak で一括導入
     └── windows/
         ├── show-boot-order.bat          … bcdedit で現在のブート順を表示
         ├── set-grub-first.bat           … bcdedit で GRUB(\EFI\<distro>\grubx64.efi)を Windows よりも優先
@@ -97,6 +99,14 @@ sudo bash scripts/linux/install-gaming-stack.sh
 ```
 
 i386 アーキ有効化 → Steam・GameMode・MangoHud・Gamescope を apt で導入 → Flathub 追加 → Lutris / Heroic / Bottles / ProtonUp-Qt を Flatpak で導入、までを一括で行います(冪等)。ストア別の使い分け(Steam → Proton、Epic/GOG → Heroic、Battle.net → Lutris、単発 → Bottles)とアンチチート対応の現実、低スペック機向け Gamescope の使い方は `docs/10-windows-games-on-linux.md` を参照。
+
+### HoyoPlay / Wuthering Waves / 中華ガチャ系を Linux で遊びたい
+
+```bash
+bash scripts/linux/install-aagl-launchers.sh
+```
+
+Flathub から An Anime Game Launcher ファミリ(Genshin / HSR / Honkai 3 / ZZZ / WuWa 系)と Bottles / Heroic / ProtonUp-Qt を Flatpak で一括導入(ユーザスコープ、冪等)。HoyoPlay 自体は AAGL が内包。XXMI Launcher(GIMI / SRMI / ZZMI / WWMI など 3DMigoto モッドフロントエンド)を同じ Wine prefix に同居させる手順、Wuthering Waves を Heroic+Epic 経由で動かす手順、アンチチート/TOS の注意は `docs/11-hoyo-and-cn-gacha-on-linux.md` を参照。
 
 ## 注意
 
