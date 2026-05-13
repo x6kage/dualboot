@@ -106,7 +106,7 @@ i386 アーキ有効化 → Steam・GameMode・MangoHud・Gamescope を apt で�
 bash scripts/linux/install-aagl-launchers.sh
 ```
 
-Flathub から An Anime Game Launcher ファミリ(Genshin / HSR / Honkai 3 / ZZZ / WuWa 系)と Bottles / Heroic / ProtonUp-Qt を Flatpak で一括導入(ユーザスコープ、冪等)。HoyoPlay 自体は AAGL が内包。XXMI Launcher(GIMI / SRMI / ZZMI / WWMI など 3DMigoto モッドフロントエンド)を同じ Wine prefix に同居させる手順、Wuthering Waves を Heroic+Epic 経由で動かす手順、アンチチート/TOS の注意は `docs/11-hoyo-and-cn-gacha-on-linux.md` を参照。
+Flathub から An Anime Game Launcher ファミリ(Genshin / HSR / Honkai 3 / ZZZ / WuWa 系)と Bottles / Heroic / ProtonUp-Qt を Flatpak で一括導入(ユーザスコープ、冪等)。HoyoPlay 自体は AAGL が内包。Wuthering Waves は **Steam 版があるので Steam + Proton-GE が最良**、Epic を使わない場合も Wavey Launcher (コミュニティ Flatpak) や Bottles + Kuro 公式インストーラで OK。XXMI Launcher(GIMI / SRMI / ZZMI / WWMI など 3DMigoto モッドフロントエンド)を同じ Wine prefix に同居させる手順、アンチチート/TOS の注意は `docs/11-hoyo-and-cn-gacha-on-linux.md` を参照。
 
 ## 注意
 

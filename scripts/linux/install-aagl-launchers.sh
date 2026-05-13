@@ -122,8 +122,16 @@ cat <<'EOF'
        - HoyoPlay 自体を入れる必要はなし
 
   3) Wuthering Waves / Endfield 等
-       - 推奨: Heroic を起動 → Epic アカウントログイン → ゲームを Install
-       - 非 Epic ルート: Bottles の Gaming テンプレートに公式ランチャを入れる
+       - 推奨(WuWa): Steam 版があるので Steam + Proton-GE で起動するのが最良
+                     ProtonUp-Qt で Proton-GE 8-32 以降を導入してから
+                     Steam のゲームプロパティ→互換性で選択
+       - 代替 1   : Wavey Launcher などコミュニティ Flatpak
+                     (`flatpak search wavey` で確認)
+       - 代替 2   : Bottles の Gaming テンプレートに Kuro 公式インストーラを入れる
+                     (https://wutheringwaves.kurogames.com/ から DL)
+       - 任意     : Epic を許容するなら Heroic + Proton-GE 経路でも可
+       - Endfield 等の独自ランチャ系は Steam 配信があれば Steam、
+         無ければ Bottles の Gaming テンプレートに公式インストーラ
 
   4) XXMI Launcher (3DMigoto モッドフロントエンド) を使うなら
        - 該当 prefix(AAGL なら ~/.var/app/<id>/data/.../wine-prefix)に

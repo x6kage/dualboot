@@ -8,7 +8,7 @@
 
 ## 1 行答え
 
-> **HoYo 系 (Genshin/HSR/ZZZ/Honkai 3) → An Anime Game Launcher (AAGL) ファミリの Flatpak。Wuthering Waves → Epic 経由で Heroic Games Launcher + Proton-GE。Endfield・その他の独自ランチャゲー → Bottles の Gaming テンプレートに公式インストーラ。XXMI Launcher は同じ Wine prefix に入れ、`WINEDLLOVERRIDES="dxgi=n,b"` で 3DMigoto を hook。**
+> **HoYo 系 (Genshin/HSR/ZZZ/Honkai 3) → An Anime Game Launcher (AAGL) ファミリの Flatpak。Wuthering Waves → Steam + Proton(Steam 版あり)。Endfield・その他の独自ランチャゲー → Bottles の Gaming テンプレートに公式インストーラ。XXMI Launcher は同じ Wine prefix に入れ、`WINEDLLOVERRIDES="dxgi=n,b"` で 3DMigoto を hook。**
 
 ---
 
@@ -82,36 +82,58 @@ AAGL がメンテされていない / 自分で更新タイミングをコント
 
 ### Wuthering Waves(鳴潮 / Kuro Games)
 
-#### 推奨: Epic Games Store + Heroic Games Launcher
+#### 推奨: Steam + Proton
 
-WuWa は 2024 後半から Epic に正式配信されています。これが Linux で **最も摩擦が少ない経路**:
+WuWa は **Steam にグローバル版が出ています**(本リポジトリの一般方針と同じく、Steam にあれば常に Steam が最良)。手順は通常の Steam ゲームと同じ:
+
+1. Steam を起動 → ストアで Wuthering Waves を Install
+2. ゲーム右クリック → プロパティ → 互換性 → **「特定の Steam Play 互換性ツールの使用を強制する」を ON** → **Proton-GE 8-32 以降** を選択(無ければ ProtonUp-Qt で取得)
+3. 起動オプション:
+   ```
+   gamemoderun mangohud %command%
+   ```
+4. モッド (XXMI / WWMI) を併用する場合は同じプロパティの起動オプションで:
+   ```
+   WINEDLLOVERRIDES="dxgi=n,b" gamemoderun mangohud %command%
+   ```
+
+ACE (Anti-Cheat Expert) は Proton-GE 環境で **動きます**(Kuro 公式が Linux 対応宣言したわけではないが、Proton 側で吸収)。
+
+#### 代替 1: コミュニティ Flatpak (Wavey Launcher 系)
+
+an-anime-team 派生の WuWa 専用 Flatpak。AAGL と同じ感覚で Wine prefix / DXVK / Proton を自動管理してくれます。
 
 ```bash
-flatpak install -y flathub com.heroicgameslauncher.hgl
-flatpak install -y flathub net.davidotek.pupgui2     # ProtonUp-Qt(Proton-GE 取得用)
+flatpak search wavey
+flatpak install -y flathub moe.launcher.wavey-launcher    # 命名は派生プロジェクト次第
 ```
 
-1. ProtonUp-Qt を起動 → Compatibility Tool: Heroic 用に **Proton-GE 8-32 以降** を Install
-2. Heroic を起動 → Epic アカウントでログイン → Wuthering Waves を Install
-3. ゲームの設定 → Wine version: **Proton-GE 8-32 以降**
-4. 起動オプション: `gamemoderun mangohud %command%`
-5. 必要に応じて `WINEDLLOVERRIDES="dxgi=n,b"` を追加(モッド使用時)
+中国大陸版を入れたい / 公式ランチャの自動更新挙動を残したい場合は次の Bottles ルートと使い分け。
 
-ACE (Anti-Cheat Expert) は Heroic + Proton-GE 環境で **動きます**(Kuro 公式が Linux 対応宣言したわけではないが、Proton 側で吸収)。
+#### 代替 2: Bottles + Kuro 公式インストーラ
 
-#### 代替: WuWa 公式ランチャを Bottles か専用 Flatpak
+Steam を経由したくない / 中国大陸版 / PSN 連携等の特殊事情がある場合:
 
-- **コミュニティ Flatpak**: `moe.launcher.wavey-launcher` 系列(an-anime-team の派生)。Flathub または GitLab Pages で提供されている可能性あり。`flatpak search wavey` を確認。
-- **公式ランチャ + Bottles**: Kuro 公式から `Wuthering Waves Launcher.exe` を取得 → Bottles の Gaming テンプレートで起動。中国大陸版や PSN 経路を扱う場合はこちら。
+1. <https://wutheringwaves.kurogames.com/> から `Wuthering Waves Launcher.exe` を取得
+2. `flatpak install -y flathub com.usebottles.bottles`
+3. Bottles で「ボトル新規作成」→ テンプレート: **Gaming**、Runner: Soda / Caffe(GE 系)
+4. ボトル内で「Run executable」→ 取得した `Wuthering Waves Launcher.exe`
+5. ゲーム本体を Install → 通常通りプレイ
+6. モッド使用時は Bottles の「環境変数」で `WINEDLLOVERRIDES=dxgi=n,b`
+
+#### 代替 3: Heroic + Epic Games Store
+
+WuWa は Epic にも 2024 後半から配信されています。**Epic ストアを使うことに抵抗がなければ** この経路でも動きます。手順は Heroic を入れて Epic ログイン → Install → Proton-GE を選択、で Steam 版とほぼ同等の体験になります。本リポジトリでは Steam 版を優先する立場ですが、Epic 経路を選ぶ自由は残しておきます。
 
 ### Arknights: Endfield(Hypergryph / 鷹角)
 
 2025 後半〜2026 にグローバル本格展開。**HoYo よりアンチチートが緩い** ので動かしやすい部類。
 
-| 経路 | 動かし方 |
-| --- | --- |
-| Epic / Steam(配信あれば) | Heroic + Proton-GE / Steam + Proton |
-| 公式ランチャ | Bottles の Gaming テンプレートに公式インストーラ |
+| 経路 | 動かし方 | 推奨度 |
+| --- | --- | --- |
+| Steam(配信あれば) | Steam + Proton(または Proton-GE) | ★★★ |
+| 公式ランチャ | Bottles の Gaming テンプレートに公式インストーラを入れる | ★★ |
+| Epic | Heroic + Proton-GE(Epic を許容するなら) | ★ |
 
 公式 Discord / r/Arknights で **「working on Steam Deck」** 報告があれば、Linux でもほぼ同じ状況と見て良い。
 
@@ -128,7 +150,7 @@ ACE (Anti-Cheat Expert) は Heroic + Proton-GE 環境で **動きます**(Kuro �
 | NIKKE | Steam + Proton | Steam に来た |
 | 原神(中国大陸版) | AAGL でサーバ切替、または Bottles + HoyoPlay 中国版 | データ互換性なし |
 
-「Steam にあれば常に Steam が最良、無ければ Heroic+Epic か AAGL か Bottles」の順に検討、が定石。
+**「Steam にあれば常に Steam が最良、無ければ AAGL/Wavey 系 → Bottles + 公式 → (Epic を許容するなら Heroic+Epic)」** の順に検討、が定石。Epic ストアを使わない方針でも、HoYo / WuWa / Endfield / Steam 配信タイトルは全て他経路でカバーできます。
 
 ---
 
@@ -245,4 +267,4 @@ NVIDIA dGPU の場合は別途 `nvidia-driver` 系のセットアップが必要
 
 ## 1 行まとめ
 
-> **2026 年は HoYo ゲーは AAGL ファミリ、WuWa は Heroic+Epic+Proton-GE、Endfield 等の新作は Bottles で公式ランチャ、が定石。XXMI Launcher は AAGL/Bottles の prefix に同居させ `WINEDLLOVERRIDES="dxgi=n,b"` で 3DMigoto を hook。モッドは TOS 違反である点は忘れずに。**
+> **2026 年は HoYo ゲーは AAGL ファミリ、WuWa は Steam + Proton-GE(無ければ Wavey Launcher / Bottles + Kuro 公式)、Endfield 等の新作は Steam か Bottles で公式ランチャ、が定石。XXMI Launcher は AAGL/Bottles/Steam Proton の prefix に同居させ `WINEDLLOVERRIDES="dxgi=n,b"` で 3DMigoto を hook。Epic は使わなくても何も困らない。モッドは TOS 違反である点は忘れずに。**
